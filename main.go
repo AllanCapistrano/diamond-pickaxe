@@ -21,6 +21,8 @@ func main() {
 
 	cmd.Add(vaultPath)
 
+	cmd.Commit(vaultPath, "Hello World")
+
 	status := cmd.Status(vaultPath)
 
 	fmt.Println(status)

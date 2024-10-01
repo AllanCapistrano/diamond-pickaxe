@@ -33,3 +33,17 @@ func Add(path string) {
 		log.Fatal("\nCould not add files.")
 	}
 }
+
+// Executes `git commit` command into a specific directory.
+func Commit(path string, message string) {
+	commandString := fmt.Sprintf(
+		`git -C %s commit -m "%s"`, path, message,
+	)
+
+	command := exec.Command("/bin/bash", "-c", commandString)
+
+	err := command.Run()
+	if err != nil {
+		log.Fatal("\nCould not create the commit.")
+	}
+}
