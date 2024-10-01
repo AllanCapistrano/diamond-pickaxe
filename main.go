@@ -19,6 +19,8 @@ func main() {
 
 	vaultPath := os.Getenv("VAULT_PATH")
 
+	cmd.Add(vaultPath)
+
 	status := cmd.Status(vaultPath)
 
 	fmt.Println(status)
