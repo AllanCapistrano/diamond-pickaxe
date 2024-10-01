@@ -17,11 +17,11 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
-	vault_path := os.Getenv("VAULT_PATH")
+	vaultPath := os.Getenv("VAULT_PATH")
 
-	status := cmd.Status(vault_path)
+	status := cmd.Status(vaultPath)
 
 	fmt.Println(status)
 
-	fmt.Println(handler.HasFilesToSync(vault_path))
+	fmt.Println(handler.HasFilesToSync(vaultPath))
 }
