@@ -8,8 +8,8 @@ import (
 
 // Return true if the vault has files to synchronize. Otherwise, it returns
 // false.
-func HasFilesToSync() bool {
-	files_status := cmd.Status()
+func HasFilesToSync(path string) bool {
+	files_status := cmd.Status(path)
 
 	files := strings.Split(files_status, "\n")
 
