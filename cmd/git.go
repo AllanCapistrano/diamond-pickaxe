@@ -9,6 +9,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
+// Executes `git status` command into a specific directory.
 func Status() string {
 	err := godotenv.Load()
 

@@ -6,7 +6,8 @@ import (
 	"gihub.com/allancapistrano/diamond-pickaxe/cmd"
 )
 
-// Return true if the vault has files to synchronize. Otherwise returns false.
+// Return true if the vault has files to synchronize. Otherwise, it returns
+// false.
 func HasFilesToSync() bool {
 	files_status := cmd.Status()
 
