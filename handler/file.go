@@ -13,5 +13,12 @@ func HasFilesToSync(path string) bool {
 
 	files := strings.Split(filesStatus, "\n")
 
-	return len(files) > 0
+	filteredFiles := []string{}
+	for _, file := range files {
+		if file != "" {
+			filteredFiles = append(filteredFiles, file)
+		}
+	}
+
+	return len(filteredFiles) > 0
 }
