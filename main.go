@@ -28,4 +28,6 @@ func main() {
 	fmt.Println(status)
 
 	fmt.Println(handler.HasFilesToSync(vaultPath))
+
+	fmt.Println(handler.CurrentTimestampFormatted())
 }
