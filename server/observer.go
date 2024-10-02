@@ -9,14 +9,18 @@ import (
 )
 
 // Check if there are files in the vault to synchronize
-func Loop(filePath string, sleep int) {
+func Loop(filePath string, sleep int) { // TODO: Alterar nome do parâmetro 'filePath' para 'vaultPath'
 	for {
-		if handler.HasFilesToSubmit(filePath) {
-			fmt.Println("There are files to synchronize!")
+		if handler.HasFilesToDownload(filePath) {
+			fmt.Println("There are files to download!")
+		} else { // TODO: Rever lógica, pois talvez isso possa causar conflitos
+			if handler.HasFilesToSubmit(filePath) {
+				fmt.Println("There are files to submit!")
 
-			submitChanges(filePath)
-		} else {
-			fmt.Println("There are no files to synchronize!")
+				submitChanges(filePath)
+			} else {
+				fmt.Println("There are no files to submit!")
+			}
 		}
 
 		time.Sleep(time.Duration(sleep) * time.Second)
