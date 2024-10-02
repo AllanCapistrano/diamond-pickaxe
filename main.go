@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 
-	"gihub.com/allancapistrano/diamond-pickaxe/cmd"
-	"gihub.com/allancapistrano/diamond-pickaxe/handler"
+	"gihub.com/allancapistrano/diamond-pickaxe/server"
 	"github.com/joho/godotenv"
 )
 
@@ -19,15 +19,16 @@ func main() {
 
 	vaultPath := os.Getenv("VAULT_PATH")
 
-	cmd.Add(vaultPath)
+	sleepInString := os.Getenv("SYNC_IN_SECONDS")
 
-	cmd.Commit(vaultPath, "Hello World")
+	sleep, err := strconv.Atoi(sleepInString)
+	if err != nil {
+		logMessage := fmt.Sprintf("Cannot convert '%s' to a number.", sleepInString)
 
-	status := cmd.Status(vaultPath)
+		log.Fatal(logMessage)
+	}
 
-	fmt.Println(status)
+	server.Loop(vaultPath, sleep)
 
-	fmt.Println(handler.HasFilesToSync(vaultPath))
-
-	fmt.Println(handler.CurrentTimestampFormatted())
+	select {}
 }
