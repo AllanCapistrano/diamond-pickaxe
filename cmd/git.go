@@ -61,3 +61,17 @@ func Push(path string) {
 		log.Fatal("\nCould not push the commit.")
 	}
 }
+
+// Executes `git fetch` command into a specific directory.
+func Fetch(path string) {
+	commandString := fmt.Sprintf(
+		`git -C %s fetch`, path,
+	)
+
+	command := exec.Command("/bin/bash", "-c", commandString)
+
+	err := command.Run()
+	if err != nil {
+		log.Fatal("\nCould not fetch the repository.")
+	}
+}
