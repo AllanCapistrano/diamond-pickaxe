@@ -31,4 +31,6 @@ func synchronizeFiles(filePath string) {
 	timeStamp := handler.CurrentTimestampFormatted()
 
 	cmd.Commit(filePath, timeStamp)
+
+	cmd.Push(filePath)
 }

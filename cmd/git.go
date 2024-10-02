@@ -47,3 +47,17 @@ func Commit(path string, message string) {
 		log.Fatal("\nCould not create the commit.")
 	}
 }
+
+// Executes `git push` command into a specific directory.
+func Push(path string) {
+	commandString := fmt.Sprintf(
+		`git -C %s push`, path,
+	)
+
+	command := exec.Command("/bin/bash", "-c", commandString)
+
+	err := command.Run()
+	if err != nil {
+		log.Fatal("\nCould not push the commit.")
+	}
+}
