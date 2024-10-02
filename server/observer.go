@@ -14,7 +14,7 @@ func Loop(filePath string, sleep int) {
 		if handler.HasFilesToSync(filePath) {
 			fmt.Println("There are files to synchronize!")
 
-			synchronizeFiles(filePath)
+			submitChanges(filePath)
 		} else {
 			fmt.Println("There are no files to synchronize!")
 		}
@@ -24,8 +24,8 @@ func Loop(filePath string, sleep int) {
 	}
 }
 
-// Synchronize the files
-func synchronizeFiles(filePath string) {
+// Submits the local changes
+func submitChanges(filePath string) {
 	cmd.Add(filePath)
 
 	timeStamp := handler.CurrentTimestampFormatted()
