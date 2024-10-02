@@ -11,7 +11,7 @@ import (
 // Check if there are files in the vault to synchronize
 func Loop(filePath string, sleep int) {
 	for {
-		if handler.HasFilesToSync(filePath) {
+		if handler.HasFilesToSubmit(filePath) {
 			fmt.Println("There are files to synchronize!")
 
 			submitChanges(filePath)
