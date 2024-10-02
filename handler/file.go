@@ -9,7 +9,7 @@ import (
 // Return true if the vault has files to synchronize. Otherwise, it returns
 // false.
 func HasFilesToSync(path string) bool {
-	filesStatus := cmd.Status(path)
+	filesStatus := cmd.Status(path, false)
 
 	files := strings.Split(filesStatus, "\n")
 

@@ -7,10 +7,18 @@ import (
 )
 
 // Executes `git status` command into a specific directory.
-func Status(path string) string {
-	commandString := fmt.Sprintf(
-		`git -C %s status -s`, path,
-	)
+func Status(path string, useGrep bool) string {
+	var commandString string
+
+	if useGrep {
+		commandString = fmt.Sprintf(
+			`git -C %s status -sb | grep behind`, path,
+		)
+	} else {
+		commandString = fmt.Sprintf(
+			`git -C %s status -s`, path,
+		)
+	}
 
 	output, err := exec.Command("/bin/bash", "-c", commandString).Output()
 	if err != nil {
