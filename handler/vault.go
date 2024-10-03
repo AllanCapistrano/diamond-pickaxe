@@ -28,16 +28,7 @@ func HasFilesToSubmit(path string) bool {
 func HasFilesToDownload(path string) bool {
 	cmd.Fetch(path)
 
-	remoteFilesStatus := cmd.Status(path, true) // TODO: Está dando erro ao usar o '| grep behind'
+	remoteFilesStatus := cmd.Status(path, true)
 
-	files := strings.Split(remoteFilesStatus, "\n")
-
-	filteredFiles := []string{}
-	for _, file := range files {
-		if file != "" {
-			filteredFiles = append(filteredFiles, file)
-		}
-	}
-
-	return len(filteredFiles) > 0
+	return strings.Contains(remoteFilesStatus, "[behind 1]")
 }

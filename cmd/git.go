@@ -9,18 +9,23 @@ import (
 // Executes `git status` command into a specific directory.
 func Status(path string, useGrep bool) string {
 	var commandString string
+	var output []byte
+	var err error
 
 	if useGrep {
 		commandString = fmt.Sprintf(
-			`git -C %s status -sb | grep behind`, path,
+			`git -C %s status -sb`, path,
 		)
+
+		output, err = exec.Command("/bin/bash", "-c", commandString, "|", "grep behind").Output()
 	} else {
 		commandString = fmt.Sprintf(
 			`git -C %s status -s`, path,
 		)
+
+		output, err = exec.Command("/bin/bash", "-c", commandString).Output()
 	}
 
-	output, err := exec.Command("/bin/bash", "-c", commandString).Output()
 	if err != nil {
 		log.Fatal(err)
 	}
