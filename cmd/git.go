@@ -34,7 +34,7 @@ func Status(path string, parameter string, hasPipeOperator bool, args ...string)
 
 // Executes `git add` command into a specific directory.
 func Add(path string) {
-	commandString := fmt.Sprintf(
+	commandString := fmt.Sprintf( // TODO: Encapsular de alguma forma pois tem muita repetição
 		`git -C %s add .`, path,
 	)
 
