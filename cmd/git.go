@@ -87,3 +87,17 @@ func Fetch(path string) {
 		log.Fatal("\nCould not fetch the repository.")
 	}
 }
+
+// Executes `git pull` command into a specific directory.
+func Pull(path string) {
+	commandString := fmt.Sprintf(
+		`git -C %s pull`, path,
+	)
+
+	command := exec.Command("/bin/bash", "-c", commandString)
+
+	err := command.Run()
+	if err != nil {
+		log.Fatal("\nCould not pull the repository.")
+	}
+}

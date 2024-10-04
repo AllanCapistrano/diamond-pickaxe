@@ -13,6 +13,8 @@ func Loop(filePath string, sleep int) { // TODO: Alterar nome do parâmetro 'fil
 	for {
 		if handler.HasFilesToDownload(filePath) {
 			fmt.Println("There are files to download!")
+
+			getChanges(filePath)
 		} else { // TODO: Rever lógica, pois talvez isso possa causar conflitos
 			if handler.HasFilesToSubmit(filePath) {
 				fmt.Println("There are files to submit!")
@@ -37,4 +39,9 @@ func submitChanges(filePath string) {
 	cmd.Commit(filePath, timeStamp)
 
 	cmd.Push(filePath)
+}
+
+// Get the remote changes
+func getChanges(filePath string) {
+	cmd.Pull(filePath)
 }
