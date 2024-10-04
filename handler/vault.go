@@ -9,7 +9,7 @@ import (
 // Return true if the vault has files to synchronize. Otherwise, it returns
 // false.
 func HasFilesToSubmit(path string) bool {
-	filesStatus := cmd.Status(path, false)
+	filesStatus := cmd.Status(path, "-s", false)
 
 	files := strings.Split(filesStatus, "\n")
 
@@ -28,7 +28,7 @@ func HasFilesToSubmit(path string) bool {
 func HasFilesToDownload(path string) bool {
 	cmd.Fetch(path)
 
-	remoteFilesStatus := cmd.Status(path, true)
+	remoteFilesStatus := cmd.Status(path, "-sb", true, "grep", "behind")
 
 	return strings.Contains(remoteFilesStatus, "[behind 1]")
 }

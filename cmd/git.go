@@ -4,25 +4,24 @@ import (
 	"fmt"
 	"log"
 	"os/exec"
+	"strings"
 )
 
 // Executes `git status` command into a specific directory.
-func Status(path string, useGrep bool) string {
+func Status(path string, parameter string, hasPipeOperator bool, args ...string) string {
 	var commandString string
 	var output []byte
 	var err error
 
-	if useGrep {
-		commandString = fmt.Sprintf(
-			`git -C %s status -sb`, path,
-		)
+	commandString = fmt.Sprintf(
+		`git -C %s status %s`, path, parameter,
+	)
 
-		output, err = exec.Command("/bin/bash", "-c", commandString, "|", "grep behind").Output()
+	if hasPipeOperator {
+		argsConcatenated := strings.Join(args, " ")
+
+		output, err = exec.Command("/bin/bash", "-c", commandString, "|", argsConcatenated).Output()
 	} else {
-		commandString = fmt.Sprintf(
-			`git -C %s status -s`, path,
-		)
-
 		output, err = exec.Command("/bin/bash", "-c", commandString).Output()
 	}
 
