@@ -57,9 +57,9 @@ func Status(path string, parameter string, hasPipeOperator bool, args ...string)
 
 // Executes `git add` command into a specific directory.
 func Add(path string) {
-	commandString := fmt.Sprintf( // TODO: Encapsular de alguma forma pois tem muita repetição
-		`git -C %s add .`, path,
-	)
+    git := create(path)
+
+    commandString := git.command("add", ".")
 
 	command := exec.Command("/bin/bash", "-c", commandString)
 
@@ -71,9 +71,11 @@ func Add(path string) {
 
 // Executes `git commit` command into a specific directory.
 func Commit(path string, message string) {
-	commandString := fmt.Sprintf(
-		`git -C %s commit -m "%s"`, path, message,
-	)
+	formattedMessage := fmt.Sprintf(`"%s"`, message)
+
+    git := create(path)
+
+    commandString := git.command("commit -m", formattedMessage)
 
 	command := exec.Command("/bin/bash", "-c", commandString)
 
@@ -85,9 +87,9 @@ func Commit(path string, message string) {
 
 // Executes `git push` command into a specific directory.
 func Push(path string) {
-	commandString := fmt.Sprintf(
-		`git -C %s push`, path,
-	)
+    git := create(path)
+
+    commandString := git.command("push")
 
 	command := exec.Command("/bin/bash", "-c", commandString)
 
@@ -99,9 +101,9 @@ func Push(path string) {
 
 // Executes `git fetch` command into a specific directory.
 func Fetch(path string) {
-	commandString := fmt.Sprintf(
-		`git -C %s fetch`, path,
-	)
+    git := create(path)
+
+    commandString := git.command("fetch")
 
 	command := exec.Command("/bin/bash", "-c", commandString)
 
@@ -113,9 +115,9 @@ func Fetch(path string) {
 
 // Executes `git pull` command into a specific directory.
 func Pull(path string) {
-	commandString := fmt.Sprintf(
-		`git -C %s pull`, path,
-	)
+    git := create(path)
+
+    commandString := git.command("pull")
 
 	command := exec.Command("/bin/bash", "-c", commandString)
 
