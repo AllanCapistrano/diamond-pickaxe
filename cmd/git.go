@@ -7,15 +7,38 @@ import (
 	"strings"
 )
 
+type git struct {
+    Path string
+    command func(string, ...any) string
+}
+
+// Return the base format for executing git commands.
+func create(path string) *git {
+    git := &git {
+        Path: path,
+        command: func(restCommand string, values ...any) string {
+            if (len(values) > 0)  {
+                restCommand += " %s"
+            }
+
+            commandString := fmt.Sprintf(`git -C %s %s`, path, restCommand)
+
+            return fmt.Sprintf(commandString, values...)
+        },
+    }
+
+    return git
+}
+
 // Executes `git status` command into a specific directory.
 func Status(path string, parameter string, hasPipeOperator bool, args ...string) string {
 	var commandString string
 	var output []byte
 	var err error
 
-	commandString = fmt.Sprintf(
-		`git -C %s status %s`, path, parameter,
-	)
+    git := create(path)
+
+    commandString = git.command("status", parameter)
 
 	if hasPipeOperator {
 		argsConcatenated := strings.Join(args, " ")
