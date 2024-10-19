@@ -9,17 +9,17 @@ import (
 )
 
 // Check if there are files in the vault to synchronize
-func Loop(filePath string, sleep int) { // TODO: Alterar nome do parâmetro 'filePath' para 'vaultPath'
+func Loop(vaultPath string, sleep int) {
 	for {
-		if handler.HasFilesToDownload(filePath) {
+		if handler.HasFilesToDownload(vaultPath) {
 			fmt.Println("There are files to download!")
 
-			getChanges(filePath)
+			getChanges(vaultPath)
 		} else { // TODO: Rever lógica, pois talvez isso possa causar conflitos
-			if handler.HasFilesToSubmit(filePath) {
+			if handler.HasFilesToSubmit(vaultPath) {
 				fmt.Println("There are files to submit!")
 
-				submitChanges(filePath)
+				submitChanges(vaultPath)
 			} else {
 				fmt.Println("There are no files to submit!")
 			}
@@ -31,17 +31,17 @@ func Loop(filePath string, sleep int) { // TODO: Alterar nome do parâmetro 'fil
 }
 
 // Submits the local changes
-func submitChanges(filePath string) {
-	cmd.Add(filePath)
+func submitChanges(vaultPath string) {
+	cmd.Add(vaultPath)
 
 	timeStamp := handler.CurrentTimestampFormatted()
 
-	cmd.Commit(filePath, timeStamp)
+	cmd.Commit(vaultPath, timeStamp)
 
-	cmd.Push(filePath)
+	cmd.Push(vaultPath)
 }
 
 // Get the remote changes
-func getChanges(filePath string) {
-	cmd.Pull(filePath)
+func getChanges(vaultPath string) {
+	cmd.Pull(vaultPath)
 }
