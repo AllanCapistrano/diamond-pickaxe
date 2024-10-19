@@ -6,8 +6,8 @@ import (
 	"path/filepath"
 )
 
-// Create a file in the specified path.
-func CreateFile(path string, name string) {
+// Create a directory in the specified path.
+func CreateDirectory(path string, name string) {
 	filePath := filepath.Join(path, name)
 
 	if _, err := os.Stat(filePath); os.IsNotExist(err) {
