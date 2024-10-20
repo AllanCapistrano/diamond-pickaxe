@@ -2,6 +2,7 @@ package settings
 
 import (
 	"encoding/json"
+	"io"
 	"log"
 	"os"
 	"path/filepath"
@@ -72,4 +73,37 @@ func CreateSettingsFile(content Settings) {
 	)
 
 	os.WriteFile(filePath, jsonString, 0644)
+}
+
+// Load the settings file.
+func LoadSettingsFile() Settings {
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		log.Fatal("Couldn't open the user home directory.")
+	}
+
+	filePath := filepath.Join(
+		homeDir,
+		CONFIG_DIRECTORY_NAME,
+		DIAMOND_PICKAXE_DIRECTORY_NAME,
+		SETTINGS_FILE_NAME,
+	)
+
+	file, err := os.Open(filePath)
+	if err != nil {
+		log.Fatalf(
+			"Couldn't open the '%s' file! Check the path or file name.\n",
+			SETTINGS_FILE_NAME,
+		)
+	}
+
+	defer file.Close()
+
+	var settings Settings
+
+	byteValue, _ := io.ReadAll(file)
+
+	json.Unmarshal(byteValue, &settings)
+
+	return settings
 }
