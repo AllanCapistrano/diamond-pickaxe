@@ -29,7 +29,13 @@ func CheckSettingsFileExists() bool {
 		foundSettingsFile = false
 	}
 
-	filePath := filepath.Join(homeDir, ".config", "diamond-pickaxe", SETTINGS_FILE_NAME)
+	filePath := filepath.Join(
+		homeDir,
+		CONFIG_DIRECTORY_NAME,
+		DIAMOND_PICKAXE_DIRECTORY_NAME,
+		SETTINGS_FILE_NAME,
+	)
+
 	file, err := os.Open(filePath)
 	if err != nil {
 		foundSettingsFile = false
