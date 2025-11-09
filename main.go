@@ -12,6 +12,6 @@ func main() {
 
 	server.Loop()
 
-	// Prevents the program from terminating
+	// Prevents the app from terminating
 	select {}
 }
