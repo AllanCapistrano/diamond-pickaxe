@@ -51,9 +51,8 @@ func setup() settings.Settings {
 
 	if !settings.CheckSettingsFileExists() {
 		settings.CreateSettingsFile(settings.Settings{
-			VaultPath:       "",
-			VaultRepository: "",
-			SyncInSeconds:   30,
+			VaultPath:     "",
+			SyncInSeconds: 30,
 		})
 
 		fmt.Printf("The settings file was not found. But we created one at '%s'\n", settingsFilePath)
@@ -65,12 +64,6 @@ func setup() settings.Settings {
 
 	if !settings.IsVaultPathValid(diamondPickaxeSettings.VaultPath) {
 		fmt.Printf("The vault path is invalid\n")
-		fmt.Printf("Open the file '%s/%s' to set up the configurations\n", settingsFilePath, settings.SETTINGS_FILE_NAME)
-		os.Exit(1)
-	}
-
-	if !settings.IsVaultRepositoryValid(diamondPickaxeSettings.VaultRepository) {
-		fmt.Printf("The vault repository is invalid\n")
 		fmt.Printf("Open the file '%s/%s' to set up the configurations\n", settingsFilePath, settings.SETTINGS_FILE_NAME)
 		os.Exit(1)
 	}

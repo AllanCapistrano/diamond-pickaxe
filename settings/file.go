@@ -17,7 +17,6 @@ const DIAMOND_PICKAXE_DIRECTORY_NAME = "diamond-pickaxe"
 
 type Settings struct {
 	VaultPath       string `json:"vault_path"`
-	VaultRepository string `json:"vault_repository"`
 	SyncInSeconds   int    `json:"sync_in_seconds"`
 }
 
