@@ -4,31 +4,53 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strconv"
 
 	"gihub.com/allancapistrano/diamond-pickaxe/server"
-	"github.com/joho/godotenv"
+	"gihub.com/allancapistrano/diamond-pickaxe/settings"
 )
 
 func main() {
-	err := godotenv.Load()
+	if !settings.CheckSettingsFileExists() {
+		settings.CreateSettingsFile(settings.Settings{
+			VaultPath:       "",
+			VaultRepository: "",
+			SyncInSeconds:   30,
+		})
 
-	if err != nil {
-		log.Fatal("Error loading .env file.")
+		homeDir, err := os.UserHomeDir()
+		if err != nil {
+			log.Fatal("Couldn't open the user home directory.")
+		}
+
+		settingsFilePath := fmt.Sprintf(
+			"%s/%s/%s",
+			homeDir,
+			settings.CONFIG_DIRECTORY_NAME,
+			settings.DIAMOND_PICKAXE_DIRECTORY_NAME,
+		)
+
+		fmt.Printf("The settings file was not found. But we created one at '%s'\n", settingsFilePath)
+		fmt.Printf("Open the file '%s' to set up the configurations\n", settings.SETTINGS_FILE_NAME)
+
+		os.Exit(1)
 	}
 
-	vaultPath := os.Getenv("VAULT_PATH")
+	diamondPickaxeSettings := settings.LoadSettingsFile()
 
-	sleepInString := os.Getenv("SYNC_IN_SECONDS")
-
-	sleep, err := strconv.Atoi(sleepInString)
-	if err != nil {
-		logMessage := fmt.Sprintf("Cannot convert '%s' to a number.", sleepInString)
-
-		log.Fatal(logMessage)
+	if !settings.IsVaultPathValid(diamondPickaxeSettings.VaultPath) {
+		fmt.Printf("The vault path is invalid\n")
+		fmt.Printf("Open the file '%s' to set up the configurations\n", settings.SETTINGS_FILE_NAME)
+		os.Exit(1)
 	}
 
-	server.Loop(vaultPath, sleep)
+	if !settings.IsVaultRepositoryValid(diamondPickaxeSettings.VaultRepository) {
+		fmt.Printf("The vault repository is invalid\n")
+		fmt.Printf("Open the file '%s' to set up the configurations\n", settings.SETTINGS_FILE_NAME)
+		os.Exit(1)
+	}
 
+	server.Loop(diamondPickaxeSettings.VaultPath, diamondPickaxeSettings.SyncInSeconds)
+
+	// Prevents the program from terminating
 	select {}
 }
