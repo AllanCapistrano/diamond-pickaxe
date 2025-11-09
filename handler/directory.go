@@ -1,9 +1,10 @@
 package handler
 
 import (
-	"log"
 	"os"
 	"path/filepath"
+
+	log "github.com/sirupsen/logrus"
 )
 
 // Create a directory in the specified path.

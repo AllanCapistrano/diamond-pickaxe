@@ -3,9 +3,10 @@ package settings
 import (
 	"encoding/json"
 	"io"
-	"log"
 	"os"
 	"path/filepath"
+
+	log "github.com/sirupsen/logrus"
 
 	"gihub.com/allancapistrano/diamond-pickaxe/handler"
 )
@@ -26,7 +27,7 @@ func CheckSettingsFileExists() bool {
 
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
-		log.Fatal("Couldn't open the user home directory.")
+		log.WithField("level", "FATAL").Error("Couldn't open the user home directory.")
 		foundSettingsFile = false
 	}
 
