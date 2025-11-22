@@ -31,14 +31,12 @@ func Loop() {
 				fmt.Println("There are files to download!")
 
 				getChanges(vaultPath)
-			} else {
-				if handler.HasFilesToSubmit(vaultPath) {
-					fmt.Println("There are files to submit!")
+			} else if handler.HasFilesToSubmit(vaultPath) {
+				fmt.Println("There are files to submit!")
 
-					submitChanges(vaultPath)
-				} else {
-					fmt.Println("There are no files to submit!")
-				}
+				submitChanges(vaultPath)
+			} else {
+				fmt.Println("Nothing to do")
 			}
 		}
 
