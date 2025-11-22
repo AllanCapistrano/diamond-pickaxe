@@ -17,17 +17,26 @@ func Loop() {
 	for {
 		diamondPickaxeSettings := setup()
 
-		if handler.HasFilesToDownload(diamondPickaxeSettings.VaultPath) {
-			fmt.Println("There are files to download!")
+		vaultPath := diamondPickaxeSettings.VaultPath
+		hasConflictingFiles, files := handler.HasConflictingFiles(vaultPath)
 
-			getChanges(diamondPickaxeSettings.VaultPath)
-		} else { // TODO: Rever lógica, pois talvez isso possa causar conflitos
-			if handler.HasFilesToSubmit(diamondPickaxeSettings.VaultPath) {
+		if hasConflictingFiles {
+			fmt.Println("The following files have conflicts:")
+
+			for i := range files {
+				fmt.Printf("- %s\n", files[i])
+			}
+		} else {
+			if handler.HasFilesToDownload(vaultPath) {
+				fmt.Println("There are files to download!")
+
+				getChanges(vaultPath)
+			} else if handler.HasFilesToSubmit(vaultPath) {
 				fmt.Println("There are files to submit!")
 
-				submitChanges(diamondPickaxeSettings.VaultPath)
+				submitChanges(vaultPath)
 			} else {
-				fmt.Println("There are no files to submit!")
+				fmt.Println("Nothing to do")
 			}
 		}
 

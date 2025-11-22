@@ -32,3 +32,39 @@ func HasFilesToDownload(path string) bool {
 
 	return strings.Contains(remoteFilesStatus, "[behind 1]")
 }
+
+// Return true if there are conflicting files and file names.
+// Otherwise, returns false and nil.
+func HasConflictingFiles(path string) (bool, []string) {
+	output := cmd.LsFiles(path)
+
+	if len(output) != 0 {
+		var files []string
+
+		lines := strings.Split(output, "\n")
+
+		filesMap := make(map[string]bool)
+
+		// Avoiding adding files with the same name
+		add := func(val string) {
+			if !filesMap[val] {
+				filesMap[val] = true
+			}
+		}
+
+		for i := range lines {
+			fields := strings.Fields(lines[i])
+			filename := fields[len(fields)-1]
+
+			add(filename)
+		}
+
+		for i := range filesMap {
+			files = append(files, i)
+		}
+
+		return true, files
+	}
+
+	return false, nil
+}
