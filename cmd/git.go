@@ -127,3 +127,21 @@ func Pull(path string) {
 		log.Fatal("\nCould not pull the repository.")
 	}
 }
+
+// Executes `git ls-files -u` command into a specific directory.
+func LsFiles(path string) string {
+	var output []byte
+	var err error
+
+	git := create(path)
+
+	commandString := git.command("ls-files -u")
+
+	output, err = exec.Command("/bin/bash", "-c", commandString).Output()
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return strings.TrimSpace(string(output))
+}
